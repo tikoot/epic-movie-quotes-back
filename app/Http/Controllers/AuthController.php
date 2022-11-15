@@ -23,4 +23,18 @@ class AuthController extends Controller
 
         return response()->json('User successfuly registered!', 200);
     }
+
+    public function verify(Request $request): JsonResponse
+    {
+        $user = User::findOrFail($request->id);
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
+
+        return response()->json([
+            "message" => "Email verified successfully!",
+            "success" => true
+        ]);
+    }
 }
