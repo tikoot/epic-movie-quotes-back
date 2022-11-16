@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,7 +27,17 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        VerifyEmail::toMailUsing(function ($notifiable) {
+            $params = [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification())
+            ];
+            $url = env('FRONT_APP') . '/verify-email?';
 
-        //
+            foreach ($params as $key => $param) {
+                $url .= "{$key}={$param}&";
+            }
+            return (new MailMessage())->view('verification-verify', ['url' => $url]);
+        });
     }
 }
