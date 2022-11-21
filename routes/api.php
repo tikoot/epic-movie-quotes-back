@@ -25,3 +25,6 @@ Route::get('email-verification', [AuthController::class, 'verify'])->name('verif
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('forgot.password');
 Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('reset.password');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/me', [AuthController::class, 'me'])->middleware('jwt.auth')->name('me');
