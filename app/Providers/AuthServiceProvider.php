@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
                 'id' => $notifiable->getKey(),
                 'hash' => sha1($notifiable->getEmailForVerification())
             ];
-            $url = env('FRONT_APP') . '/verify-email?';
+            $url = env('FRONT_APP_URL') . '/verify-email?';
 
             foreach ($params as $key => $param) {
                 $url .= "{$key}={$param}&";
@@ -47,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
                 'email' => $notifiable->getEmailForPasswordReset(),
             ];
 
-            $url = env('FRONT_APP') . '/reset-password?';
+            $url = env('FRONT_APP_URL') . '/reset-password?';
 
             foreach ($params as $key => $param) {
                 $url .= "{$key}={$param}&";
