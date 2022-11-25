@@ -16,13 +16,13 @@ use Illuminate\Support\Str;
 
 class GoogleController extends Controller
 {
-    public function redirectToProvider()
+    public function redirectToProvider(): JsonResponse
     {
         $url =  Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
         return response()->json(['url' => $url]);
     }
 
-    public function handleProviderCallback()
+    public function handleProviderCallback(): JsonResponse
     {
         $user = Socialite::driver('google')->stateless()->user();
 

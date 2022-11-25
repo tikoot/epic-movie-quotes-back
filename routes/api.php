@@ -21,7 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [AuthController::class,'register']);
+Route::post('/register', [AuthController::class,'register'])->name('register');
+;
 Route::get('email-verification', [AuthController::class, 'verify'])->name('verification.verify');
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('forgot.password');
@@ -30,5 +31,5 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/me', [AuthController::class, 'me'])->middleware('jwt.auth')->name('me');
 
-Route::get('/auth/google/redirect', [GoogleController::class, 'redirectToProvider']);
-Route::get('/auth/google/callback', [GoogleController::class, 'handleProviderCallback']);
+Route::get('/auth/google/redirect', [GoogleController::class, 'redirectToProvider'])->name('redirect.provider');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleProviderCallback'])->name('handle.callback');
