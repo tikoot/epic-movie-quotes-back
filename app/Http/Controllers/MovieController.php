@@ -22,4 +22,10 @@ class MovieController extends Controller
 
         return response()->json('Movie created Successfully');
     }
+    public function show($id)
+    {
+        $movies = Movie::where('user_id', '=', $id)->get();
+
+        return response($movies);
+    }
 }
