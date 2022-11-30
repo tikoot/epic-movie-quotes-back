@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\MovieController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,6 @@ Route::get('/me', [AuthController::class, 'me'])->middleware('jwt.auth')->name('
 
 Route::get('/auth/google/redirect', [GoogleController::class, 'redirectToProvider'])->name('redirect.provider');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleProviderCallback'])->name('handle.callback');
+
+Route::post('/movies/store', [MovieController::class, 'store'])->name('movies.store');
+Route::get('/movies/show/{id}', [MovieController::class, 'show'])->name('movies.show');
