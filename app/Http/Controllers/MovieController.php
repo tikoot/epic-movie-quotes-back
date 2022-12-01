@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMovieRequest;
 use App\Models\Movie;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreMovieRequest $request): JsonResponse
     {
         $movie = new Movie();
         $movie->user_id = $request->user_id;
@@ -22,7 +24,7 @@ class MovieController extends Controller
 
         return response()->json('Movie created Successfully');
     }
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $movies = Movie::where('user_id', '=', $id)->get();
 
