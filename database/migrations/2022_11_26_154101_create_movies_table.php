@@ -18,6 +18,9 @@ return new class () extends Migration {
             $table->json('movie_name');
             $table->json('director');
             $table->json('description');
+            $table->json('category');
+            $table->integer('year');
+            $table->integer('budget');
             $table->string('thumbnail');
             $table->timestamps();
         });

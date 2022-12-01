@@ -14,6 +14,9 @@ class MovieController extends Controller
         $movie = new Movie();
         $movie->user_id = $request->user_id;
         $movie->thumbnail = $request->file('thumbnail')->store('thumbnails');
+        $movie->category = json_encode($request->category);
+        $movie->year = $request->year;
+        $movie->budget = $request->budget;
         $movie->setTranslation('movie_name', 'en', $request->movie_name_en);
         $movie->setTranslation('movie_name', 'ka', $request->movie_name_ka);
         $movie->setTranslation('director', 'en', $request->director_en);
@@ -28,6 +31,6 @@ class MovieController extends Controller
     {
         $movies = Movie::where('user_id', '=', $id)->get();
 
-        return response($movies);
+        return response()->json($movies);
     }
 }

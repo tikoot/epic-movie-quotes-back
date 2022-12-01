@@ -22,6 +22,9 @@ class StoreMovieRequest extends FormRequest
             'description_en' => 'required',
             'description_ka' => 'required',
             'thumbnail' => 'required',
+            'category' => 'required',
+            'year' => 'required|integer',
+            'budget' => 'required|integer',
         ];
     }
 }
