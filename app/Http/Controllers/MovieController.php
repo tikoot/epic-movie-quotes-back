@@ -33,4 +33,11 @@ class MovieController extends Controller
 
         return response()->json($movies);
     }
+
+    public function showMovie($movieId): JsonResponse
+    {
+        $movie = Movie::where('id', '=', $movieId)->get();
+
+        return response()->json($movie);
+    }
 }
