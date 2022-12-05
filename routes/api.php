@@ -38,3 +38,4 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleProviderCal
 Route::post('/movies/store', [MovieController::class, 'store'])->name('movies.store');
 Route::get('/movies/show/{id}', [MovieController::class, 'show'])->name('movies.show');
 Route::get('/movies/{id}', [MovieController::class, 'showMovie'])->name('movie.show');
+Route::post('/movies/update', [MovieController::class, 'update'])->name('movie.update');

@@ -40,4 +40,23 @@ class MovieController extends Controller
 
         return response()->json($movie);
     }
+
+    public function update(Movie $movie, StoreMovieRequest $request): JsonResponse
+    {
+        $movie = Movie::find($request->id);
+        $movie->user_id = $request->user_id;
+        $movie->thumbnail = $request->file('thumbnail')->store('thumbnails');
+        $movie->category = json_encode($request->category);
+        $movie->year = $request->year;
+        $movie->budget = $request->budget;
+        $movie->setTranslation('movie_name', 'en', $request->movie_name_en);
+        $movie->setTranslation('movie_name', 'ka', $request->movie_name_ka);
+        $movie->setTranslation('director', 'en', $request->director_en);
+        $movie->setTranslation('director', 'ka', $request->director_ka);
+        $movie->setTranslation('description', 'en', $request->description_en);
+        $movie->setTranslation('description', 'ka', $request->description_ka);
+
+        $movie->update();
+        return response()->json('Movie updated Successfully');
+    }
 }
