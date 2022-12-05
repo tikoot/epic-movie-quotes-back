@@ -59,4 +59,11 @@ class MovieController extends Controller
         $movie->update();
         return response()->json('Movie updated Successfully');
     }
+
+    public function destroy(Movie $movie, $id)
+    {
+        $movie = Movie::find($id);
+        $movie->delete();
+        return response()->json('Movie removed Successfully');
+    }
 }

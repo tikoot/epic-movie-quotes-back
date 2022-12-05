@@ -40,3 +40,4 @@ Route::post('/movies/store', [MovieController::class, 'store'])->name('movies.st
 Route::get('/movies/show/{id}', [MovieController::class, 'show'])->name('movies.show');
 Route::get('/movies/{id}', [MovieController::class, 'showMovie'])->name('movie.show');
 Route::post('/movies/update', [MovieController::class, 'update'])->name('movie.update');
+Route::delete('movies/{id}', [MovieController::class, 'destroy'])->name('movies.destroy');
