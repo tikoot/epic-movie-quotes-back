@@ -75,4 +75,11 @@ class AuthController extends Controller
             200
         );
     }
+
+    public function logout(): JsonResponse
+    {
+        $cookie = cookie("access_token", '', 0, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+
+        return response()->json('success', 200)->withCookie($cookie);
+    }
 }
