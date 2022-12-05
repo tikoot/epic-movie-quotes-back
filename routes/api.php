@@ -22,22 +22,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [AuthController::class,'register'])->name('register');
-;
-Route::get('email-verification', [AuthController::class, 'verify'])->name('verification.verify');
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.auth')->name('logout');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/register', 'register')->name('register');
+    Route::post('login', 'login')->name('login');
+    Route::get('/logout', 'logout')->middleware('jwt.auth')->name('logout');
+    Route::get('email-verification', 'verify')->name('verification.verify');
+    Route::get('/me', 'me')->middleware('jwt.auth')->name('me');
+});
 
-Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('forgot.password');
-Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('reset.password');
+Route::controller(ForgotPasswordController::class)->group(function () {
+    Route::post('/forgot-password', 'sendResetLink')->name('forgot.password');
+    Route::post('/reset-password', 'resetPassword')->name('reset.password');
+});
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/me', [AuthController::class, 'me'])->middleware('jwt.auth')->name('me');
+Route::controller(GoogleController::class)->group(function () {
+    Route::get('/auth/google/redirect', 'redirectToProvider')->name('redirect.provider');
+    Route::get('/auth/google/callback', 'handleProviderCallback')->name('handle.callback');
+});
 
-Route::get('/auth/google/redirect', [GoogleController::class, 'redirectToProvider'])->name('redirect.provider');
-Route::get('/auth/google/callback', [GoogleController::class, 'handleProviderCallback'])->name('handle.callback');
-
-Route::post('/movies/store', [MovieController::class, 'store'])->name('movies.store');
-Route::get('/movies/show/{id}', [MovieController::class, 'show'])->name('movies.show');
-Route::get('/movies/{id}', [MovieController::class, 'showMovie'])->name('movie.show');
-Route::post('/movies/update', [MovieController::class, 'update'])->name('movie.update');
-Route::delete('movies/{id}', [MovieController::class, 'destroy'])->name('movies.destroy');
+Route::controller(MovieController::class)->group(function () {
+    Route::post('/movies/store', 'store')->name('movies.store');
+    Route::get('/movies/show/{id}', 'show')->name('movies.show');
+    Route::get('/movies/{id}', 'showMovie')->name('movie.show');
+    Route::post('/movies/update', 'update')->name('movie.update');
+    Route::delete('movies/{id}', 'destroy')->name('movies.destroy');
+});
