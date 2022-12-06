@@ -12,16 +12,17 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('avatar')->default('/assets/defaultAvatar.png');
-            $table->rememberToken();
+            $table->foreignId('user_id');
+            $table->json('movie_name');
+            $table->json('director');
+            $table->json('description');
+            $table->json('category');
+            $table->integer('year');
+            $table->integer('budget');
+            $table->string('thumbnail');
             $table->timestamps();
-            $table->string('google_id')->nullable();
         });
     }
 
@@ -32,6 +33,6 @@ return new class () extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('movies');
     }
 };
