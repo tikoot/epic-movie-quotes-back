@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QuoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,4 +47,9 @@ Route::controller(MovieController::class)->group(function () {
     Route::get('/movies/{id}', 'showMovie')->name('movie.show');
     Route::post('/movies/update', 'update')->name('movie.update');
     Route::delete('movies/{id}', 'destroy')->name('movies.destroy');
+});
+
+Route::controller(QuoteController::class)->group(function () {
+    Route::post('/quotes/store', 'store')->name('quotes.store');
+    Route::get('/quotes/show/{id}', 'show')->name('quotes.show');
 });
