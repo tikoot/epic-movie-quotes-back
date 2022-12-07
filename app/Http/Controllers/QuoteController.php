@@ -26,4 +26,11 @@ class QuoteController extends Controller
 
         return response()->json($quotes);
     }
+
+    public function showQuote($quoteId): JsonResponse
+    {
+        $quote = Quote::where('id', '=', $quoteId)->get();
+
+        return response()->json($quote);
+    }
 }
