@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuoteRequest;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Redis;
 
 class QuoteController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function store(StoreQuoteRequest $request): JsonResponse
     {
         $quote = new Quote();
         $quote->movie_id = $request->movie_id;
@@ -44,7 +45,7 @@ class QuoteController extends Controller
         return response()->json('Quote removed Successfully');
     }
 
-    public function update(Quote $quote, Request $request): JsonResponse
+    public function update(Quote $quote, StoreQuoteRequest $request): JsonResponse
     {
         $quote = Quote::find($request->id);
 
