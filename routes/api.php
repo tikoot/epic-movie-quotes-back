@@ -53,4 +53,5 @@ Route::controller(QuoteController::class)->group(function () {
     Route::post('/quotes/store', 'store')->name('quotes.store');
     Route::get('/quotes/show/{id}', 'show')->name('quotes.show');
     Route::get('/quotes/{id}', 'showQuote')->name('quote.show');
+    Route::delete('quotes/{id}', 'destroy')->name('quotes.destroy');
 });

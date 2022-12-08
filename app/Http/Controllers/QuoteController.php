@@ -33,4 +33,11 @@ class QuoteController extends Controller
 
         return response()->json($quote);
     }
+
+    public function destroy(Quote $quote, $id): JsonResponse
+    {
+        $quote = Quote::find($id);
+        $quote->delete();
+        return response()->json('Quote removed Successfully');
+    }
 }
