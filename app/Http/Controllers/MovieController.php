@@ -46,7 +46,9 @@ class MovieController extends Controller
     {
         $movie = Movie::find($request->id);
         $movie->user_id = $request->user_id;
-        $movie->thumbnail = $request->file('thumbnail')->store('thumbnails');
+        if ($request->hasFile('thumbnail')) {
+            $movie->thumbnail = $request->file('thumbnail')->store('thumbnails');
+        }
         $movie->category = json_encode($request->category);
         $movie->year = $request->year;
         $movie->budget = $request->budget;
