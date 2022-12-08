@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class QuoteController extends Controller
 {
@@ -12,7 +13,9 @@ class QuoteController extends Controller
     {
         $quote = new Quote();
         $quote->movie_id = $request->movie_id;
-        $quote->thumbnail = request()->file('thumbnail')->store('thumbnails');
+        if ($request->hasFile('thumbnail')) {
+            $quote->thumbnail = request()->file('thumbnail')->store('thumbnails');
+        }
         $quote->setTranslation('quote', 'en', $request->quote_en);
         $quote->setTranslation('quote', 'ka', $request->quote_ka);
         $quote->save();
@@ -39,5 +42,21 @@ class QuoteController extends Controller
         $quote = Quote::find($id);
         $quote->delete();
         return response()->json('Quote removed Successfully');
+    }
+
+    public function update(Quote $quote, Request $request): JsonResponse
+    {
+        $quote = Quote::find($request->id);
+
+        if ($request->hasFile('thumbnail')) {
+            $quote->thumbnail = $request->file('thumbnail')->store('thumbnails');
+        }
+
+        $quote->movie_id = $request->movie_id;
+        $quote->setTranslation('quote', 'en', $request->quote_en);
+        $quote->setTranslation('quote', 'ka', $request->quote_ka);
+        $quote->update();
+
+        return response()->json('Quote updated Successfully');
     }
 }
