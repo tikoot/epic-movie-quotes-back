@@ -14,7 +14,7 @@ return new class () extends Migration {
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->json('movie_name');
             $table->json('director');
             $table->json('description');
