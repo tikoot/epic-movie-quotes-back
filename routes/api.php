@@ -57,3 +57,7 @@ Route::controller(QuoteController::class)->group(function () {
     Route::delete('quotes/{id}', 'destroy')->name('quotes.destroy');
     Route::post('/quote/update', 'update')->name('quote.update');
 });
+
+Route::controller(CommentController::class)->group(function () {
+    Route::post('/quotes/{id}/comments', 'store')->name('comments.store');
+});

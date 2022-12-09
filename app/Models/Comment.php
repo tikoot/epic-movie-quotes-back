@@ -11,6 +11,8 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function quote(): BelongsTo
     {
         return $this->belongsTo(Quote::class);
