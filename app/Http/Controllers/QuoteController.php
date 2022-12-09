@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuoteRequest;
 use App\Models\Quote;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -14,6 +15,7 @@ class QuoteController extends Controller
     {
         $quote = new Quote();
         $quote->movie_id = $request->movie_id;
+        $quote->user_id = $request->user_id;
         if ($request->hasFile('thumbnail')) {
             $quote->thumbnail = request()->file('thumbnail')->store('thumbnails');
         }
@@ -54,6 +56,7 @@ class QuoteController extends Controller
         }
 
         $quote->movie_id = $request->movie_id;
+        $quote->user_id = $request->user_id;
         $quote->setTranslation('quote', 'en', $request->quote_en);
         $quote->setTranslation('quote', 'ka', $request->quote_ka);
         $quote->update();
