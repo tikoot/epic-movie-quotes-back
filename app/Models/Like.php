@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Like extends Model
 {
     use HasFactory;
+
+    public function quote(): BelongsTo
+    {
+        return $this->belongsTo(Quote::class);
+    }
 }
