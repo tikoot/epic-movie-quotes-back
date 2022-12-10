@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuoteRequest;
+use App\Models\Like;
 use App\Models\Movie;
 use App\Models\Quote;
 use App\Models\User;
@@ -36,7 +37,7 @@ class QuoteController extends Controller
 
     public function showQuote($quoteId): JsonResponse
     {
-        $quote = Quote::with('comments.user')->where('id', '=', $quoteId)->get();
+        $quote = Quote::with('comments.user', 'likes')->where('id', '=', $quoteId)->get();
 
         return response()->json($quote);
     }
