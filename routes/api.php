@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->name('register');
-    Route::post('login', 'login')->name('login');
+    Route::post('/login', 'login')->name('login');
     Route::get('/logout', 'logout')->middleware('jwt.auth')->name('logout');
     Route::get('email-verification', 'verify')->name('verification.verify');
     Route::get('/me', 'me')->middleware('jwt.auth')->name('me');
@@ -53,6 +53,7 @@ Route::controller(MovieController::class)->group(function () {
 
 Route::controller(QuoteController::class)->group(function () {
     Route::post('/quotes/store', 'store')->name('quotes.store');
+    Route::get('/quotes-all', 'allQuotes')->name('quotes.all');
     Route::get('/quotes/show/{id}', 'show')->name('quotes.show');
     Route::get('/quotes/{id}', 'showQuote')->name('quote.show');
     Route::delete('quotes/{id}', 'destroy')->name('quotes.destroy');

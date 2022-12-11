@@ -65,4 +65,10 @@ class QuoteController extends Controller
 
         return response()->json('Quote updated Successfully');
     }
+
+    public function allQuotes(): JsonResponse
+    {
+        $quote = Quote::with('comments.user', 'likes', 'user', 'movie')->orderBy('created_at', 'desc')->paginate(2);
+        return response()->json($quote);
+    }
 }
