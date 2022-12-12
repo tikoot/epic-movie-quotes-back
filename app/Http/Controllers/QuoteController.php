@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class QuoteController extends Controller
 {
@@ -66,9 +67,37 @@ class QuoteController extends Controller
         return response()->json('Quote updated Successfully');
     }
 
-    public function allQuotes(): JsonResponse
+    public function allQuotes(Request $request): JsonResponse
     {
-        $quote = Quote::with('comments.user', 'likes', 'user', 'movie')->orderBy('created_at', 'desc')->paginate(2);
+        $search = $request->search;
+        $searchQuote = str_starts_with($search, '#');
+        $searchMovie = str_starts_with($search, '@');
+
+        if ($searchQuote) {
+            $search = ltrim($search, '#');
+            $quote =  Quote::where('quote->ka', 'LIKE', "%{$search}%")
+            ->orWhere('quote->en', 'LIKE', "%{$search}%")
+            ->with('comments.user', 'likes', 'user', 'movie')->orderBy('created_at', 'desc')->paginate(2);
+        } elseif ($searchMovie || $search) {
+            if (str_starts_with($search, '@')) {
+                $search = ltrim($search, '@');
+            }
+            $quote =  Quote::with('comments.user', 'likes', 'user', 'movie')
+            ->where(function ($query) use ($search) {
+                $query->whereHas('movie', function ($q) use ($search) {
+                    $q->where('movie_name->en', 'like', "%{$search}%");
+                });
+            })
+            ->orWhere(function ($query) use ($search) {
+                $query->whereHas('movie', function ($q) use ($search) {
+                    $q->where('movie_name->ka', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('created_at', 'desc')->paginate(2);
+        } else {
+            $quote = Quote::with('comments.user', 'likes', 'user', 'movie')->orderBy('created_at', 'desc')->paginate(2);
+        }
+
         return response()->json($quote);
     }
 }
