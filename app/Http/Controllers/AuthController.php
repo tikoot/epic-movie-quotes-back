@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\StorePostRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
@@ -40,12 +41,16 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(): JsonResponse
+    public function login(StorePostRequest $request): JsonResponse
     {
+        $login= $request->email;
+
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
         $authenticated = auth()->attempt(
             [
-                'email' => request()->email,
-                'password' => request()->password,
+                $fieldType => $login,
+                'password' => $request->password,
             ]
         );
 
@@ -55,7 +60,9 @@ class AuthController extends Controller
 
         $payload = [
             'exp' => Carbon::now()->addMinutes(50)->timestamp,
-            'uid' => User::where('email', '=', request()->email)->first()->id,
+            'uid' => User::where('email', '=', request()->email)
+            ->orWhere('username', '=', request()->email)
+            ->first()->id,
         ];
 
         $jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
