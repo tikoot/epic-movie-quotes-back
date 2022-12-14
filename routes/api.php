@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->name('register');
+    Route::post('/user/update', 'update')->name('user.update');
     Route::post('/login', 'login')->name('login');
     Route::get('/logout', 'logout')->middleware('jwt.auth')->name('logout');
     Route::get('email-verification', 'verify')->name('verification.verify');
