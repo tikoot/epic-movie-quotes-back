@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\LikeController;
@@ -67,4 +68,9 @@ Route::controller(CommentController::class)->group(function () {
 
 Route::controller(LikeController::class)->group(function () {
     Route::post('/quote-like', 'storeLike')->name('likes.store');
+});
+
+Route::controller(EmailController::class)->group(function () {
+    Route::post('/add-email', 'store')->name('email.store');
+    Route::get('/secondary-email/{token}', 'emailVerify')->name('email.secondary');
 });
