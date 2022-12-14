@@ -91,7 +91,7 @@ class AuthController extends Controller
         return response()->json('success', 200)->withCookie($cookie);
     }
 
-    public function update(Request $request)//: JsonResponse
+    public function update(Request $request): JsonResponse
     {
         $user = User::find($request->id);
 
