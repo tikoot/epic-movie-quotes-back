@@ -32,4 +32,20 @@ class EmailController extends Controller
             "success" => true
         ]);
     }
+
+    public function emailVerify($token): JsonResponse
+    {
+        $verifiedUser = Email::where('token', $token)->first();
+
+
+        if ($verifiedUser->markEmailAsVerified()) {
+            event(new Verified($verifiedUser));
+        }
+
+        return response()->json([
+            "message" => "Email verified successfully!",
+            "success" => true
+        ]);
+        return response($token);
+    }
 }
