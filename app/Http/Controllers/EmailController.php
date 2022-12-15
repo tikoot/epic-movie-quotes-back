@@ -46,7 +46,6 @@ class EmailController extends Controller
             "message" => "Email verified successfully!",
             "success" => true
         ]);
-        return response($token);
     }
 
     public function getUserEmail($id): JsonResponse
@@ -61,5 +60,26 @@ class EmailController extends Controller
         $userEmail = Email::find($id);
         $userEmail->delete();
         return response()->json('Email removed Successfully');
+    }
+
+    public function makePrimary(Request $request): JsonResponse
+    {
+        $userEmail = User::where('id', $request->user_id)->pluck('email')->first();
+
+        $newPrimary = Email::where('id', $request->email)->pluck('email')->first();
+
+        $user = User::find($request->user_id);
+        $user->email = $newPrimary;
+        $user->update();
+
+        $email = Email::find($request->email);
+        $email->email = $userEmail;
+        $email->update();
+
+
+        return response()->json([
+            "message" => "New primary email added successfully!",
+            "success" => true
+        ]);
     }
 }
