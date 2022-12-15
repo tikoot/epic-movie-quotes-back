@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\LikeController;
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->name('register');
+    Route::post('/user/update', 'update')->name('user.update');
     Route::post('/login', 'login')->name('login');
     Route::get('/logout', 'logout')->middleware('jwt.auth')->name('logout');
     Route::get('email-verification', 'verify')->name('verification.verify');
@@ -66,4 +68,12 @@ Route::controller(CommentController::class)->group(function () {
 
 Route::controller(LikeController::class)->group(function () {
     Route::post('/quote-like', 'storeLike')->name('likes.store');
+});
+
+Route::controller(EmailController::class)->group(function () {
+    Route::post('/add-email', 'store')->name('email.store');
+    Route::get('/secondary-email/{token}', 'emailVerify')->name('email.secondary');
+    Route::get('/user-email/{id}', 'getUserEmail')->name('user.email');
+    Route::delete('delete-email/{id}', 'destroy')->name('email.destroy');
+    Route::post('/make-primary', 'makePrimary')->name('email.primary');
 });

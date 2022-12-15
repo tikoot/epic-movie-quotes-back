@@ -12,16 +12,13 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('emails', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
             $table->string('email')->unique();
+            $table->string('token');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('avatar')->default('assets/defaultAvatar.png');
-            $table->rememberToken();
             $table->timestamps();
-            $table->string('google_id')->nullable();
         });
     }
 
@@ -32,6 +29,6 @@ return new class () extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('emails');
     }
 };

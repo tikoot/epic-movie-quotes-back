@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -88,5 +89,21 @@ class AuthController extends Controller
         $cookie = cookie("access_token", '', 0, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
 
         return response()->json('success', 200)->withCookie($cookie);
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        $user = User::find($request->id);
+
+
+        $user->username = $request->username;
+        if ($request->hasFile('thumbnail')) {
+            $user->avatar = $request->file('thumbnail')->store('thumbnails');
+        }
+        if ($request->password != '') {
+            $user->password = Hash::make($request->password);
+        }
+        $user->update();
+        return response()->json('User updated successfuly!', 200);
     }
 }
