@@ -74,4 +74,5 @@ Route::controller(EmailController::class)->group(function () {
     Route::post('/add-email', 'store')->name('email.store');
     Route::get('/secondary-email/{token}', 'emailVerify')->name('email.secondary');
     Route::get('/user-email/{id}', 'getUserEmail')->name('user.email');
+    Route::delete('delete-email/{id}', 'destroy')->name('email.destroy');
 });

@@ -55,4 +55,11 @@ class EmailController extends Controller
 
         return response()->json($user);
     }
+
+    public function destroy($id): JsonResponse
+    {
+        $userEmail = Email::find($id);
+        $userEmail->delete();
+        return response()->json('Email removed Successfully');
+    }
 }
