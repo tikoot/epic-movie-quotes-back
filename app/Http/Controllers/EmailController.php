@@ -48,4 +48,11 @@ class EmailController extends Controller
         ]);
         return response($token);
     }
+
+    public function getUserEmail($id): JsonResponse
+    {
+        $user = User::with('emails')->where('id', '=', $id)->get();
+
+        return response()->json($user);
+    }
 }
